@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("GradeTracker Pro")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+3826b172719048b7d1ed90999f7dfb16343d78b4")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+74c2c66d250878d04e177d8777287ab9a4c301bc")]
 [assembly: System.Reflection.AssemblyProductAttribute("GradeTracker Pro")]
 [assembly: System.Reflection.AssemblyTitleAttribute("GradeTracker Pro")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
