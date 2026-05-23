@@ -194,5 +194,65 @@ namespace GradeTracker_Pro
                 Console.WriteLine($"Student {Studentname} not found.");
             }
         }
+        public void ClassStatistics()
+        {
+            // 1. Check if there are any students
+            if (Students == null || Students.Count == 0)
+            {
+                Console.WriteLine("══════════════════════════════════════════════════════════════════════");
+                Console.WriteLine("                      NO STUDENTS TO ANALYZE");
+                Console.WriteLine("══════════════════════════════════════════════════════════════════════");
+                return;
+            }
+
+            // 2. Calculate statistics using LINQ
+            double highestAvg = Students.Max(s => s.Average);
+            double lowestAvg = Students.Min(s => s.Average);
+            double classOverallAvg = Students.Average(s => s.Average);
+
+            // 3. Additional useful statistics
+            int totalStudents = Students.Count;
+
+            // Count students by status
+            int passedCount = Students.Count(s => s.Status.ToUpper() == "PASSED");
+            int failedCount = Students.Count(s => s.Status.ToUpper() == "FAILED");
+
+            // Find top performing student(s)
+            var topStudent = Students.FirstOrDefault(s => s.Average == highestAvg);
+
+            // Find lowest performing student(s)
+            var lowestStudent = Students.FirstOrDefault(s => s.Average == lowestAvg);
+
+            // 4. Display the statistics
+            Console.WriteLine("══════════════════════════════════════════════════════════════════════");
+            Console.WriteLine("                         CLASS STATISTICS");
+            Console.WriteLine("══════════════════════════════════════════════════════════════════════");
+
+            Console.WriteLine($"\n📊 OVERVIEW:");
+            Console.WriteLine($"   Total Students:        {totalStudents}");
+            Console.WriteLine($"   Students Passed:       {passedCount} ({(double)passedCount / totalStudents * 100:F1}%)");
+            Console.WriteLine($"   Students Failed:       {failedCount} ({(double)failedCount / totalStudents * 100:F1}%)");
+
+            Console.WriteLine($"\n📈 AVERAGE ANALYSIS:");
+            Console.WriteLine($"   Highest Student Average:  {highestAvg:F1}");
+            Console.WriteLine($"      👑 {topStudent?.Name} - {topStudent?.Average:F1}");
+            Console.WriteLine($"   Lowest Student Average:   {lowestAvg:F1}");
+            Console.WriteLine($"      📉 {lowestStudent?.Name} - {lowestStudent?.Average:F1}");
+            Console.WriteLine($"   Class Overall Average:    {classOverallAvg:F1}");
+
+            // 5. Grade distribution (optional but informative)
+            Console.WriteLine($"\n📊 GRADE DISTRIBUTION:");
+            int excellentCount = Students.Count(s => s.Average >= 90);
+            int goodCount = Students.Count(s => s.Average >= 75 && s.Average < 90);
+            int averageCount = Students.Count(s => s.Average >= 60 && s.Average < 75);
+            int poorCount = Students.Count(s => s.Average < 60);
+
+            Console.WriteLine($"   Excellent (90-100):  {excellentCount} student(s)");
+            Console.WriteLine($"   Good (75-89):        {goodCount} student(s)");
+            Console.WriteLine($"   Average (60-74):     {averageCount} student(s)");
+            Console.WriteLine($"   Poor (Below 60):     {poorCount} student(s)");
+
+            Console.WriteLine("\n══════════════════════════════════════════════════════════════════════");
+        }
     }
 }
