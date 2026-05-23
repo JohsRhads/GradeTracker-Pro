@@ -178,5 +178,21 @@ namespace GradeTracker_Pro
             Console.WriteLine("\nGrades updated successfully!");
             // 11. Back to menu (automatically returns)
         }
+        public void RemoveStudent(string Studentname)
+        {
+            Console.WriteLine("════════════════════════════════");
+            Console.WriteLine("     REMOVE STUDENT");
+            Console.WriteLine("════════════════════════════════");
+
+            var studentremove = Students.RemoveAll(s => s.Name.Equals(Studentname, StringComparison.OrdinalIgnoreCase));
+            if (studentremove > 0)
+            {
+                Console.WriteLine($"Student {Studentname} has been removed.");
+            }
+            else
+            {
+                Console.WriteLine($"Student {Studentname} not found.");
+            }
+        }
     }
 }
