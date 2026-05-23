@@ -1,0 +1,5 @@
+C:\Users\johsr\BackendMastery\GradeTracker Pro\GradeTracker Pro\obj\Debug\net10.0\GradeTracker Pro.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\johsr\BackendMastery\GradeTracker Pro\GradeTracker Pro\obj\Debug\net10.0\GradeTracker Pro.AssemblyInfoInputs.cache
+C:\Users\johsr\BackendMastery\GradeTracker Pro\GradeTracker Pro\obj\Debug\net10.0\GradeTracker Pro.AssemblyInfo.cs
+C:\Users\johsr\BackendMastery\GradeTracker Pro\GradeTracker Pro\obj\Debug\net10.0\GradeTracker Pro.csproj.CoreCompileInputs.cache
+C:\Users\johsr\BackendMastery\GradeTracker Pro\GradeTracker Pro\obj\Debug\net10.0\GradeTracker Pro.sourcelink.json
