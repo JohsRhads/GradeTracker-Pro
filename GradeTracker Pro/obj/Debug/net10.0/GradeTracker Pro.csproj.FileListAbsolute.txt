@@ -3,3 +3,13 @@ C:\Users\johsr\BackendMastery\GradeTracker Pro\GradeTracker Pro\obj\Debug\net10.
 C:\Users\johsr\BackendMastery\GradeTracker Pro\GradeTracker Pro\obj\Debug\net10.0\GradeTracker Pro.AssemblyInfo.cs
 C:\Users\johsr\BackendMastery\GradeTracker Pro\GradeTracker Pro\obj\Debug\net10.0\GradeTracker Pro.csproj.CoreCompileInputs.cache
 C:\Users\johsr\BackendMastery\GradeTracker Pro\GradeTracker Pro\obj\Debug\net10.0\GradeTracker Pro.sourcelink.json
+C:\Users\johsr\BackendMastery\GradeTracker Pro\GradeTracker Pro\bin\Debug\net10.0\GradeTracker Pro.exe
+C:\Users\johsr\BackendMastery\GradeTracker Pro\GradeTracker Pro\bin\Debug\net10.0\GradeTracker Pro.deps.json
+C:\Users\johsr\BackendMastery\GradeTracker Pro\GradeTracker Pro\bin\Debug\net10.0\GradeTracker Pro.runtimeconfig.json
+C:\Users\johsr\BackendMastery\GradeTracker Pro\GradeTracker Pro\bin\Debug\net10.0\GradeTracker Pro.dll
+C:\Users\johsr\BackendMastery\GradeTracker Pro\GradeTracker Pro\bin\Debug\net10.0\GradeTracker Pro.pdb
+C:\Users\johsr\BackendMastery\GradeTracker Pro\GradeTracker Pro\obj\Debug\net10.0\GradeTracker Pro.dll
+C:\Users\johsr\BackendMastery\GradeTracker Pro\GradeTracker Pro\obj\Debug\net10.0\refint\GradeTracker Pro.dll
+C:\Users\johsr\BackendMastery\GradeTracker Pro\GradeTracker Pro\obj\Debug\net10.0\GradeTracker Pro.pdb
+C:\Users\johsr\BackendMastery\GradeTracker Pro\GradeTracker Pro\obj\Debug\net10.0\GradeTracker Pro.genruntimeconfig.cache
+C:\Users\johsr\BackendMastery\GradeTracker Pro\GradeTracker Pro\obj\Debug\net10.0\ref\GradeTracker Pro.dll
