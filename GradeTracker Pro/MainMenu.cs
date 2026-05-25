@@ -54,6 +54,7 @@ namespace GradeTracker_Pro
                             Grademanage.ClassStatistics();
                             break;
                         case 7:
+                            Grademanage.SaveToFile();  // ← ADD THIS LINE
                             Console.WriteLine("\n════════════════════════════════");
                             Console.WriteLine("     THANK YOU FOR USING");
                             Console.WriteLine("     STUDENT GRADE SYSTEM");
