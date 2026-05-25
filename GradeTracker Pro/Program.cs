@@ -9,6 +9,7 @@ namespace GradeTrackerPro
             GradeManager gradeManager = new GradeManager();
             MainMenu main = new MainMenu(gradeManager);
             main.show();
+
         }
     }
     

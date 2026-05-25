@@ -1,13 +1,86 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq; // Enables the .Any() verification
-
+using System.IO;
+using System.Linq;
+using System.Text.Json;
 
 namespace GradeTracker_Pro
 {
     public class GradeManager
     {
         public List<Student> Students = new List<Student>();
+        private readonly string _filePath = "students.json";
+
+        // ==========================================
+        // CONSTRUCTOR — Load data on startup
+        // ==========================================
+        public GradeManager()
+        {
+            LoadFromFile();
+        }
+
+        // ==========================================
+        // FILE I/O — Save to JSON
+        // ==========================================
+        public void SaveToFile()
+        {
+            try
+            {
+                string json = JsonSerializer.Serialize(Students);
+                File.WriteAllText(_filePath, json);
+                Console.WriteLine("Data saved successfully.");
+            }
+            catch (IOException)
+            {
+                Console.WriteLine("Error: Could not save file.");
+            }
+            catch (UnauthorizedAccessException)
+            {
+                Console.WriteLine("Error: Permission denied. Cannot save.");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Unexpected error while saving: {ex.Message}");
+            }
+        }
+
+        // ==========================================
+        // FILE I/O — Load from JSON
+        // ==========================================
+        public void LoadFromFile()
+        {
+            if (!File.Exists(_filePath))
+            {
+                Console.WriteLine("No save file found. Starting fresh.");
+                return;
+            }
+
+            try
+            {
+                string json = File.ReadAllText(_filePath);
+                Students = JsonSerializer.Deserialize<List<Student>>(json) ?? new List<Student>();
+                Console.WriteLine($"Data loaded. {Students.Count} student(s) found.");
+            }
+            catch (JsonException)
+            {
+                Console.WriteLine("Save file corrupted. Starting fresh.");
+                Students = new List<Student>();
+            }
+            catch (IOException)
+            {
+                Console.WriteLine("Error reading file. Starting fresh.");
+                Students = new List<Student>();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Unexpected error: {ex.Message}");
+                Students = new List<Student>();
+            }
+        }
+
+        // ==========================================
+        // ADD STUDENT
+        // ==========================================
         public void AddStudent(Student student)
         {
             Console.WriteLine("════════════════════════════════");
@@ -21,10 +94,14 @@ namespace GradeTracker_Pro
             }
             Students.Add(student);
             Console.WriteLine("Student added successfully!");
+            SaveToFile();  // ← AUTO-SAVE
         }
+
+        // ==========================================
+        // VIEW ALL STUDENTS
+        // ==========================================
         public void ViewAllStudent()
         {
-            // 1. Check if there's anything to display
             if (Students == null || Students.Count == 0)
             {
                 Console.WriteLine("══════════════════════════════════════════════════════════════════════");
@@ -33,15 +110,11 @@ namespace GradeTracker_Pro
                 return;
             }
 
-            // 2. Top Header Banner
             Console.WriteLine("══════════════════════════════════════════════════════════════════════");
             Console.WriteLine("                          STUDENT LIST");
-
-            // 3. Column Names (Using spaces/alignment to match your layout perfectly)
             Console.WriteLine($"{"Name",-21}{"Math",-8}{"Science",-9}{"English",-9}{"Average",-9}Status");
             Console.WriteLine("──────────────────────────────────────────────────────────────────────");
 
-            // 4. Loop through students and print rows
             foreach (var student in Students)
             {
                 Console.WriteLine(
@@ -54,15 +127,16 @@ namespace GradeTracker_Pro
                 );
             }
 
-            // 5. Bottom Footer Border
             Console.WriteLine("══════════════════════════════════════════════════════════════════════");
         }
+
+        // ==========================================
+        // SEARCH STUDENT
+        // ==========================================
         public void SearchStudent(string studentName)
         {
-            // 1. Find the student (case-insensitive)
             var searchingstudent = Students.Find(s => s.Name.Equals(studentName, StringComparison.OrdinalIgnoreCase));
 
-            // 2. Handle if the student is not found
             if (searchingstudent == null)
             {
                 Console.WriteLine("══════════════════════════════════════════════════════════════════════");
@@ -71,7 +145,6 @@ namespace GradeTracker_Pro
                 return;
             }
 
-            // 3. Display the found student with matching table format
             Console.WriteLine("══════════════════════════════════════════════════════════════════════");
             Console.WriteLine("                         SEARCH RESULT");
             Console.WriteLine("══════════════════════════════════════════════════════════════════════");
@@ -89,20 +162,21 @@ namespace GradeTracker_Pro
 
             Console.WriteLine("══════════════════════════════════════════════════════════════════════");
         }
+
+        // ==========================================
+        // UPDATE GRADES
+        // ==========================================
         public void UpdateGrades(string studentName)
         {
-            // 1. User enters student name (already passed as parameter)
-            // 2. System checks: Does student exist?
             var searchingstudent = Students.Find(s => s.Name.Equals(studentName, StringComparison.OrdinalIgnoreCase));
             if (searchingstudent == null)
             {
                 Console.WriteLine("══════════════════════════════════════════════════════════════════════");
                 Console.WriteLine($"               STUDENT '{studentName.ToUpper()}' NOT FOUND");
                 Console.WriteLine("══════════════════════════════════════════════════════════════════════");
-                return; // Back to menu
+                return;
             }
 
-            // 3. Show current grades (so user knows what they're changing)
             Console.WriteLine("══════════════════════════════════════════════════════════════════════");
             Console.WriteLine("                         CURRENT GRADES");
             Console.WriteLine("══════════════════════════════════════════════════════════════════════");
@@ -119,12 +193,10 @@ namespace GradeTracker_Pro
             );
             Console.WriteLine("══════════════════════════════════════════════════════════════════════");
 
-            // 4,5,6. Ask for new grades with validation
             Console.WriteLine("\nEnter new grades (0-100):");
 
             double newMathGrade, newScienceGrade, newEnglishGrade;
 
-            // 4. Ask for new Math grade
             while (true)
             {
                 Console.Write("Math Grade: ");
@@ -133,7 +205,6 @@ namespace GradeTracker_Pro
                 Console.WriteLine("Invalid input! Please enter a number between 0 and 100.");
             }
 
-            // 5. Ask for new Science grade
             while (true)
             {
                 Console.Write("Science Grade: ");
@@ -142,7 +213,6 @@ namespace GradeTracker_Pro
                 Console.WriteLine("Invalid input! Please enter a number between 0 and 100.");
             }
 
-            // 6. Ask for new English grade
             while (true)
             {
                 Console.Write("English Grade: ");
@@ -151,13 +221,10 @@ namespace GradeTracker_Pro
                 Console.WriteLine("Invalid input! Please enter a number between 0 and 100.");
             }
 
-            // 7. Validate all inputs (0-100, must be numbers) - DONE above
-            // 8. Update student's grades
             searchingstudent.MathGrade = newMathGrade;
             searchingstudent.ScienceGrade = newScienceGrade;
             searchingstudent.EnglishGrade = newEnglishGrade;
 
-            // 9. Show updated grades (confirmation)
             Console.WriteLine("\n══════════════════════════════════════════════════════════════════════");
             Console.WriteLine("                         UPDATED GRADES");
             Console.WriteLine("══════════════════════════════════════════════════════════════════════");
@@ -174,10 +241,13 @@ namespace GradeTracker_Pro
             );
             Console.WriteLine("══════════════════════════════════════════════════════════════════════");
 
-            // 10. "Grades updated successfully!"
             Console.WriteLine("\nGrades updated successfully!");
-            // 11. Back to menu (automatically returns)
+            SaveToFile();  // ← AUTO-SAVE
         }
+
+        // ==========================================
+        // REMOVE STUDENT
+        // ==========================================
         public void RemoveStudent(string Studentname)
         {
             Console.WriteLine("════════════════════════════════");
@@ -188,15 +258,19 @@ namespace GradeTracker_Pro
             if (studentremove > 0)
             {
                 Console.WriteLine($"Student {Studentname} has been removed.");
+                SaveToFile();  // ← AUTO-SAVE
             }
             else
             {
                 Console.WriteLine($"Student {Studentname} not found.");
             }
         }
+
+        // ==========================================
+        // CLASS STATISTICS
+        // ==========================================
         public void ClassStatistics()
         {
-            // 1. Check if there are any students
             if (Students == null || Students.Count == 0)
             {
                 Console.WriteLine("══════════════════════════════════════════════════════════════════════");
@@ -205,43 +279,32 @@ namespace GradeTracker_Pro
                 return;
             }
 
-            // 2. Calculate statistics using LINQ
             double highestAvg = Students.Max(s => s.Average);
             double lowestAvg = Students.Min(s => s.Average);
             double classOverallAvg = Students.Average(s => s.Average);
-
-            // 3. Additional useful statistics
             int totalStudents = Students.Count;
-
-            // Count students by status
             int passedCount = Students.Count(s => s.Status.ToUpper() == "PASSED");
             int failedCount = Students.Count(s => s.Status.ToUpper() == "FAILED");
-
-            // Find top performing student(s)
             var topStudent = Students.FirstOrDefault(s => s.Average == highestAvg);
-
-            // Find lowest performing student(s)
             var lowestStudent = Students.FirstOrDefault(s => s.Average == lowestAvg);
 
-            // 4. Display the statistics
             Console.WriteLine("══════════════════════════════════════════════════════════════════════");
             Console.WriteLine("                         CLASS STATISTICS");
             Console.WriteLine("══════════════════════════════════════════════════════════════════════");
 
-            Console.WriteLine($"\n📊 OVERVIEW:");
+            Console.WriteLine($"\nOVERVIEW:");
             Console.WriteLine($"   Total Students:        {totalStudents}");
             Console.WriteLine($"   Students Passed:       {passedCount} ({(double)passedCount / totalStudents * 100:F1}%)");
             Console.WriteLine($"   Students Failed:       {failedCount} ({(double)failedCount / totalStudents * 100:F1}%)");
 
-            Console.WriteLine($"\n📈 AVERAGE ANALYSIS:");
+            Console.WriteLine($"\nAVERAGE ANALYSIS:");
             Console.WriteLine($"   Highest Student Average:  {highestAvg:F1}");
-            Console.WriteLine($"      👑 {topStudent?.Name} - {topStudent?.Average:F1}");
+            Console.WriteLine($"      {topStudent?.Name} - {topStudent?.Average:F1}");
             Console.WriteLine($"   Lowest Student Average:   {lowestAvg:F1}");
-            Console.WriteLine($"      📉 {lowestStudent?.Name} - {lowestStudent?.Average:F1}");
+            Console.WriteLine($"      {lowestStudent?.Name} - {lowestStudent?.Average:F1}");
             Console.WriteLine($"   Class Overall Average:    {classOverallAvg:F1}");
 
-            // 5. Grade distribution (optional but informative)
-            Console.WriteLine($"\n📊 GRADE DISTRIBUTION:");
+            Console.WriteLine($"\nGRADE DISTRIBUTION:");
             int excellentCount = Students.Count(s => s.Average >= 90);
             int goodCount = Students.Count(s => s.Average >= 75 && s.Average < 90);
             int averageCount = Students.Count(s => s.Average >= 60 && s.Average < 75);
